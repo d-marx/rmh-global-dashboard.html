@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RMH Global — Executive Fundraising Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #070D1A;
+  --surface: #0C1525;
+  --card: #111E33;
+  --card-hover: #162540;
+  --border: rgba(255,255,255,0.07);
+  --border-strong: rgba(255,255,255,0.13);
+  --teal: #1ECFAD;
+  --teal-dim: rgba(30,207,173,0.12);
+  --purple: #7C6FE0;
+  --purple-dim: rgba(124,111,224,0.12);
+  --amber: #F0A82E;
+  --amber-dim: rgba(240,168,46,0.12);
+  --coral: #E05B37;
+  --coral-dim: rgba(224,91,55,0.12);
+  --green: #3DD68C;
+  --green-dim: rgba(61,214,140,0.1);
+  --red: #F07171;
+  --red-dim: rgba(240,113,113,0.1);
+  --blue: #4E9EE8;
+  --blue-dim: rgba(78,158,232,0.1);
+  --text: #EEF2FF;
+  --text-2: #8BA0C0;
+  --text-3: #4E6280;
+  --font-body: 'Sora', sans-serif;
+  --font-serif: 'Instrument Serif', serif;
+  --r: 10px;
+  --r-sm: 6px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* NOISE OVERLAY */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: 0.4;
+}
+
+.wrap { max-width: 1280px; margin: 0 auto; padding: 0 32px 80px; position: relative; z-index: 1; }
+
+/* HEADER */
+header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 28px 0 24px;
+  border-bottom: 0.5px solid var(--border);
+  margin-bottom: 28px;
+  animation: fadeUp 0.6s ease both;
+}
+.header-left {}
+.org-name {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  display: flex; align-items: center; gap: 10px;
+}
+.org-name span {
+  display: inline-block; width: 8px; height: 8px;
+  border-radius: 50%; background: var(--teal);
+  box-shadow: 0 0 10px var(--teal);
+}
+.org-sub { font-size: 12px; color: var(--text-3); margin-top: 3px; letter-spacing: 0.04em; text-transform: uppercase; }
+.header-right { font-size: 11px; color: var(--text-3); text-align: right; }
+.sample-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 20px;
+  border: 0.5px solid var(--amber);
+  color: var(--amber); font-size: 11px; font-weight: 500;
+}
+
+/* FILTERS BAR */
+.filters {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r);
+  margin-bottom: 12px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.filter-group { display: flex; align-items: center; gap: 8px; }
+.filter-label { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; }
+input[type="date"] {
+  font-family: var(--font-body); font-size: 12px;
+  padding: 5px 10px;
+  background: var(--card); border: 0.5px solid var(--border-strong);
+  border-radius: var(--r-sm); color: var(--text);
+  cursor: pointer;
+}
+input[type="date"]:focus { outline: none; border-color: var(--teal); }
+.py-label { font-size: 12px; color: var(--text-2); margin-left: auto; }
+.py-label strong { color: var(--text); font-weight: 500; }
+.sep { color: var(--text-3); }
+
+/* CHAPTER TOGGLE */
+.chapter-bar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 18px;
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r);
+  margin-bottom: 28px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  animation: fadeUp 0.6s 0.15s ease both;
+}
+.chapter-bar.active { border-color: var(--purple); background: var(--purple-dim); }
+.toggle-track {
+  width: 36px; height: 20px; border-radius: 10px;
+  background: var(--border-strong); position: relative;
+  transition: background 0.25s; flex-shrink: 0;
+}
+.toggle-track.on { background: var(--purple); }
+.toggle-thumb {
+  width: 16px; height: 16px; border-radius: 50%; background: white;
+  position: absolute; top: 2px; left: 2px;
+  transition: left 0.25s; box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+.toggle-thumb.on { left: 18px; }
+.chapter-text { font-size: 13px; color: var(--text); }
+.chapter-sub { font-size: 11px; color: var(--text-3); }
+.active-pill {
+  display: none; align-items: center; gap: 5px; margin-left: auto;
+  font-size: 11px; font-weight: 600; color: var(--purple);
+  padding: 3px 10px; border-radius: 20px;
+  background: var(--purple-dim); border: 0.5px solid var(--purple);
+  letter-spacing: 0.03em;
+}
+.active-pill.show { display: inline-flex; }
+
+/* SECTION */
+.section { margin-bottom: 36px; animation: fadeUp 0.5s ease both; }
+.section-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px;
+}
+.section-pip { width: 4px; height: 18px; border-radius: 2px; flex-shrink: 0; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-2); }
+.section-sub { font-size: 11px; color: var(--text-3); }
+.badge-pill {
+  display: none; align-items: center; gap: 4px;
+  font-size: 10px; font-weight: 600; padding: 2px 8px;
+  border-radius: 20px; letter-spacing: 0.03em;
+}
+.badge-pill.show { display: inline-flex; }
+.badge-pill.purple { background: var(--purple-dim); color: var(--purple); border: 0.5px solid var(--purple); }
+
+/* KPI GRID */
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(0,1fr)); gap: 10px; }
+.kpi-card {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px 18px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.kpi-card:hover { border-color: var(--border-strong); background: var(--card-hover); }
+.kpi-label { font-size: 11px; color: var(--text-3); margin-bottom: 8px; line-height: 1.4; }
+.kpi-val { font-family: var(--font-serif); font-size: 28px; color: var(--text); line-height: 1; letter-spacing: -0.02em; }
+.kpi-val.pos { color: var(--green); }
+.kpi-val.neg { }
+.kpi-sub { font-size: 11px; color: var(--text-3); margin-top: 6px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px;
+}
+.chip.up { background: var(--green-dim); color: var(--green); }
+.chip.dn { background: var(--red-dim); color: var(--red); }
+.chip.nu { background: var(--purple-dim); color: var(--purple); }
+
+/* SUB ROW LABEL */
+.row-label { font-size: 11px; color: var(--text-3); margin: 14px 0 6px 2px; letter-spacing: 0.04em; }
+
+/* GOAL PANEL */
+.goal-panel-note {
+  font-size: 12px; color: var(--text-2);
+  padding: 10px 14px; margin-bottom: 14px;
+  background: var(--amber-dim); border-left: 2px solid var(--amber);
+  border-radius: 0;
+}
+.goal-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; }
+.goal-card {
+  background: var(--card); border: 0.5px solid var(--border);
+  border-radius: var(--r); padding: 12px 14px;
+  transition: border-color 0.2s;
+}
+.goal-card.mod { border-color: var(--amber); }
+.goal-src { font-size: 11px; font-weight: 600; color: var(--text-2); margin-bottom: 8px; letter-spacing: 0.04em; text-transform: uppercase; }
+.goal-input {
+  width: 100%; font-family: var(--font-body); font-size: 13px;
+  padding: 6px 10px;
+  background: var(--surface); border: 0.5px solid var(--border-strong);
+  border-radius: var(--r-sm); color: var(--text);
+}
+.goal-input:focus { outline: none; border-color: var(--amber); }
+.goal-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
+.goal-default { font-size: 11px; color: var(--text-3); }
+.goal-mod-badge { display: none; font-size: 10px; color: var(--amber); font-weight: 600; }
+.goal-mod-badge.show { display: block; }
+.reset-btn {
+  margin-left: auto; font-family: var(--font-body); font-size: 11px;
+  padding: 4px 12px; cursor: pointer; border-radius: 20px;
+  background: transparent; border: 0.5px solid var(--border-strong);
+  color: var(--text-2); transition: all 0.2s;
+}
+.reset-btn:hover { border-color: var(--amber); color: var(--amber); }
+
+/* TABLE */
+.tbl-outer { overflow-x: auto; border: 0.5px solid var(--border); border-radius: var(--r); }
+table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 1060px; }
+thead th {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--text-3); text-align: right; padding: 10px 12px;
+  border-bottom: 0.5px solid var(--border);
+  background: var(--surface); white-space: nowrap;
+}
+thead th:first-child { text-align: left; width: 160px; }
+tbody td {
+  padding: 9px 12px; text-align: right;
+  border-bottom: 0.5px solid var(--border);
+  color: var(--text); white-space: nowrap;
+  transition: background 0.15s;
+}
+tbody td:first-child { text-align: left; font-weight: 500; }
+tbody tr:hover td { background: var(--card); }
+tbody tr:last-child td { border-bottom: none; background: var(--surface); font-weight: 600; }
+tbody tr.other td { color: var(--text-3); font-style: italic; }
+tbody tr.other td:first-child { font-style: normal; font-weight: 500; }
+.tbl-note { font-size: 11px; color: var(--text-3); margin-top: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.leg { display: inline-flex; align-items: center; gap: 4px; }
+.leg-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* DIVIDER */
+.divider { height: 0.5px; background: var(--border); margin: 8px 0 28px; }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+.section:nth-child(1) { animation-delay: 0.2s; }
+.section:nth-child(2) { animation-delay: 0.3s; }
+.section:nth-child(3) { animation-delay: 0.4s; }
+.section:nth-child(4) { animation-delay: 0.5s; }
+.section:nth-child(5) { animation-delay: 0.55s; }
+.section:nth-child(6) { animation-delay: 0.6s; }
+.section:nth-child(7) { animation-delay: 0.65s; }
+
+/* FOOTER */
+footer {
+  text-align: center; padding: 24px 0;
+  font-size: 11px; color: var(--text-3);
+  border-top: 0.5px solid var(--border);
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="header-left">
+    <div class="org-name"><span></span>RMH Global</div>
+    <div class="org-sub">Executive Fundraising Dashboard · Fiscal Year = Calendar Year</div>
+  </div>
+  <div class="header-right">
+    <div class="sample-badge">⚠ Sample data — design review only</div>
+    <div style="margin-top:6px">Replace with live Tableau Cloud connection</div>
+  </div>
+</header>
+
+<div class="filters">
+  <div class="filter-group">
+    <span class="filter-label">Period</span>
+    <input type="date" id="sd" value="2026-01-01">
+    <span class="sep">—</span>
+    <input type="date" id="ed" value="2026-05-10">
+  </div>
+  <div class="py-label">Prior year: <strong id="pyRange">Jan 1, 2025 – May 10, 2025</strong></div>
+</div>
+
+<div class="chapter-bar" id="chapterBar" onclick="toggleChapter()">
+  <div class="toggle-track" id="chTrack"><div class="toggle-thumb" id="chThumb"></div></div>
+  <div>
+    <div class="chapter-text">Exclude chapter-only donors</div>
+    <div class="chapter-sub">Applies to KPI and retention metrics only · does not affect giving source tables</div>
+  </div>
+  <div class="active-pill" id="chPill">● Chapter-only excluded</div>
+</div>
+
+<!-- DONOR RETENTION -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-pip" style="background:var(--teal)"></div>
+    <div class="section-title">Donor Retention</div>
+    <div class="section-sub">· deduped across OCR + Account Soft Credit via Effective Account ID</div>
+    <div class="badge-pill purple" id="retBadge">excl. chapter-only</div>
+  </div>
+  <div class="row-label">Gifts</div>
+  <div class="kpi-grid" style="margin-bottom:10px">
+    <div class="kpi-card"><div class="kpi-label">CY unique gifts (a)</div><div class="kpi-val" id="cyG">1,247</div><div class="kpi-sub" id="cyGPeriod">Jan 1 – May 10, 2026</div></div>
+    <div class="kpi-card"><div class="kpi-label">PY unique gifts (b)</div><div class="kpi-val" id="pyG">1,412</div><div class="kpi-sub">Jan 1 – May 10, 2025</div></div>
+    <div class="kpi-card"><div class="kpi-label">Gift ratio (b ÷ a)</div><div class="kpi-val" id="gRat">88.3%</div><div class="kpi-sub" id="gRatSub"><span class="chip dn">▼ PY higher by 165</span></div></div>
+  </div>
+  <div class="row-label">Donors (Effective Account ID)</div>
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-label">CY unique donors (d)</div><div class="kpi-val" id="cyD">892</div><div class="kpi-sub">Jan 1 – May 10, 2026</div></div>
+    <div class="kpi-card"><div class="kpi-label">PY unique donors (e)</div><div class="kpi-val" id="pyD">1,008</div><div class="kpi-sub">Jan 1 – May 10, 2025</div></div>
+    <div class="kpi-card"><div class="kpi-label">Donor ratio (e ÷ d)</div><div class="kpi-val" id="dRat">88.5%</div><div class="kpi-sub" id="dRatSub"><span class="chip dn">▼ PY higher by 116</span></div></div>
+  </div>
+</div>
+
+<!-- KPIs -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-pip" style="background:var(--purple)"></div>
+    <div class="section-title">Key Performance Indicators</div>
+    <div class="badge-pill purple" id="kpiBadge">excl. chapter-only</div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Direct response revenue YTD</div>
+      <div class="kpi-val" id="drRev">$1.60M</div>
+      <div class="kpi-sub">DM · Email · Paid · P2P · Direct Msg</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Revenue YTD vs prior year</div>
+      <div class="kpi-val pos" id="drChg">+8.5%</div>
+      <div class="kpi-sub" id="drChgSub"><span class="chip up">▲ vs $1.47M PY</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Active donors in period</div>
+      <div class="kpi-val" id="actD">892</div>
+      <div class="kpi-sub">Effective Account ID · CY range</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Net new donors YTD</div>
+      <div class="kpi-val" id="netN">134</div>
+      <div class="kpi-sub">First_Giving_Date__c in CY range</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Net new donors vs PY</div>
+      <div class="kpi-val pos" id="netNChg">+13.6%</div>
+      <div class="kpi-sub" id="netNChgSub"><span class="chip up">▲ vs 118 PY</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- GOALS PANEL -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-pip" style="background:var(--amber)"></div>
+    <div class="section-title">Scenario Planning — Direct Response Goals</div>
+    <div class="badge-pill" id="modBadge" style="background:var(--amber-dim);color:var(--amber);border:0.5px solid var(--amber)"></div>
+    <button class="reset-btn" onclick="resetAll()">Reset to Salesforce defaults</button>
+  </div>
+  <div class="goal-panel-note">Adjust goals to model scenarios. Values reset on page refresh. Underlying Salesforce data is never modified.</div>
+  <div class="goal-grid" id="goalGrid"></div>
+</div>
+
+<!-- TABLES -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-pip" style="background:var(--blue)"></div>
+    <div class="section-title">Giving by Source — All</div>
+    <div class="section-sub">· all values of Designated_Chapter_txt__c · chapter filter does not apply</div>
+  </div>
+  <div class="tbl-outer"><table><thead><tr>
+    <th style="text-align:left">Giving source</th>
+    <th>CY sum</th><th>PY sum</th><th>YTD variance</th><th>% growth</th>
+    <th>Goal</th><th>Gap to goal</th><th>CY % of goal</th>
+    <th>PY % of total</th><th>CY % of total</th>
+  </tr></thead><tbody id="tAll"></tbody></table></div>
+  <div class="tbl-note">
+    <span class="leg"><span class="leg-dot" style="background:var(--green)"></span>≥80% of goal</span>
+    <span class="leg"><span class="leg-dot" style="background:var(--amber)"></span>60–79%</span>
+    <span class="leg"><span class="leg-dot" style="background:var(--red)"></span>&lt;60%</span>
+    <span>· N/A where denominator = 0</span>
+    <span>· Other = unmatched Giving_Source__c values</span>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <div class="section-pip" style="background:var(--teal)"></div>
+    <div class="section-title">Giving by Source — Global</div>
+    <div class="section-sub">· Designated_Chapter_txt__c = "Global"</div>
+  </div>
+  <div class="tbl-outer"><table><thead><tr>
+    <th style="text-align:left">Giving source</th>
+    <th>CY sum</th><th>PY sum</th><th>YTD variance</th><th>% growth</th>
+    <th>Goal</th><th>Gap to goal</th><th>CY % of goal</th>
+    <th>PY % of total</th><th>CY % of total</th>
+  </tr></thead><tbody id="tGlobal"></tbody></table></div>
+  <div class="tbl-note"><span>Filtered to Opportunity.Designated_Chapter_txt__c = "Global"</span></div>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <div class="section-pip" style="background:var(--coral)"></div>
+    <div class="section-title">Giving by Source — Chapters</div>
+    <div class="section-sub">· Designated_Chapter_txt__c ≠ "Global"</div>
+  </div>
+  <div class="tbl-outer"><table><thead><tr>
+    <th style="text-align:left">Giving source</th>
+    <th>CY sum</th><th>PY sum</th><th>YTD variance</th><th>% growth</th>
+    <th>Goal</th><th>Gap to goal</th><th>CY % of goal</th>
+    <th>PY % of total</th><th>CY % of total</th>
+  </tr></thead><tbody id="tChapter"></tbody></table></div>
+  <div class="tbl-note"><span>Goals sourced from chapter-level parent campaigns</span></div>
+</div>
+
+<footer>RMH Global · Executive Fundraising Dashboard · Sample data for design review · <span id="fDate"></span></footer>
+</div>
+
+<script>
+// ── DATA ──
+const KPI = {
+  all:  { cyG:1247,pyG:1412,cyD:892,pyD:1008,drCY:1600000,drPY:1474600,actD:892,netCY:134,netPY:118 },
+  excl: { cyG:1127,pyG:1274,cyD:807,pyD:916, drCY:1455000,drPY:1342600,actD:807,netCY:116,netPY:104 }
+};
+const DR_DEF = { "Direct Mail":1200000,"Email":450000,"Paid Media":250000,"Peer-to-Peer":200000,"Direct Message":120000 };
+let goals = {...DR_DEF}, excl = false;
+
+const allData = [
+  {s:"Direct Mail",    cy:845320,  py:780100,  dr:true},
+  {s:"Email",          cy:312450,  py:289200,  dr:true},
+  {s:"Paid Media",     cy:198730,  py:167400,  dr:true},
+  {s:"Peer-to-Peer",   cy:156200,  py:143800,  dr:true},
+  {s:"Direct Message", cy:87300,   py:94100,   dr:true},
+  {s:"Other",          cy:1440300, py:1264500, dr:false},
+];
+const globalData = [
+  {s:"Direct Mail",    cy:620000,  py:570000,  dr:true},
+  {s:"Email",          cy:280000,  py:260000,  dr:true},
+  {s:"Paid Media",     cy:150000,  py:120000,  dr:true},
+  {s:"Peer-to-Peer",   cy:90000,   py:85000,   dr:true},
+  {s:"Direct Message", cy:60000,   py:65000,   dr:true},
+  {s:"Other",          cy:1010000, py:839000,  dr:false},
+];
+const chapData = [
+  {s:"Direct Mail",    cy:225320,  py:210100,  dr:true},
+  {s:"Email",          cy:32450,   py:29200,   dr:true},
+  {s:"Paid Media",     cy:48730,   py:47400,   dr:true},
+  {s:"Peer-to-Peer",   cy:66200,   py:58800,   dr:true},
+  {s:"Direct Message", cy:27300,   py:29100,   dr:true},
+  {s:"Other",          cy:430300,  py:425500,  dr:false},
+];
+
+// ── FORMATTERS ──
+const fc = n => n >= 1e6 ? "$"+(n/1e6).toFixed(2)+"M" : "$"+Math.round(n/1e3)+"K";
+const fp = n => (n*100).toFixed(1)+"%";
+const gc = r => r >= .8 ? "var(--green)" : r >= .6 ? "var(--amber)" : "var(--red)";
+const isDR = s => s in DR_DEF;
+const isMod = s => isDR(s) && goals[s] !== DR_DEF[s];
+const getGoal = r => r.dr && goals[r.s] ? goals[r.s] : null;
+
+// ── KPIs ──
+function updateKPIs() {
+  const d = excl ? KPI.excl : KPI.all;
+  const gDiff = d.pyG - d.cyG, dDiff = d.pyD - d.cyD;
+  const gRat = d.pyG/d.cyG, dRat = d.pyD/d.cyD;
+  const drChg = (d.drCY-d.drPY)/d.drPY, nnChg = (d.netCY-d.netPY)/d.netPY;
+
+  set("cyG", d.cyG.toLocaleString());
+  set("pyG", d.pyG.toLocaleString());
+  set("gRat", fp(gRat));
+  setHTML("gRatSub", gDiff>0
+    ? `<span class="chip dn">▼ PY higher by ${gDiff}</span>`
+    : `<span class="chip up">▲ CY higher by ${Math.abs(gDiff)}</span>`);
+  set("cyD", d.cyD.toLocaleString());
+  set("pyD", d.pyD.toLocaleString());
+  set("dRat", fp(dRat));
+  setHTML("dRatSub", dDiff>0
+    ? `<span class="chip dn">▼ PY higher by ${dDiff}</span>`
+    : `<span class="chip up">▲ CY higher by ${Math.abs(dDiff)}</span>`);
+  set("drRev", fc(d.drCY));
+  el("drChg").textContent = (drChg>=0?"+":"")+fp(drChg);
+  el("drChg").className = "kpi-val "+(drChg>=0?"pos":"neg");
+  setHTML("drChgSub", drChg>=0
+    ? `<span class="chip up">▲ vs ${fc(d.drPY)} PY</span>`
+    : `<span class="chip dn">▼ vs ${fc(d.drPY)} PY</span>`);
+  set("actD", d.actD.toLocaleString());
+  set("netN", d.netCY);
+  el("netNChg").textContent = (nnChg>=0?"+":"")+fp(nnChg);
+  el("netNChg").className = "kpi-val "+(nnChg>=0?"pos":"neg");
+  setHTML("netNChgSub", nnChg>=0
+    ? `<span class="chip up">▲ vs ${d.netPY} PY</span>`
+    : `<span class="chip dn">▼ vs ${d.netPY} PY</span>`);
+
+  const show = excl;
+  ["retBadge","kpiBadge"].forEach(id => el(id).classList.toggle("show", show));
+  el("chPill").classList.toggle("show", show);
+  el("chapterBar").classList.toggle("active", show);
+}
+
+// ── TOGGLE ──
+function toggleChapter() {
+  excl = !excl;
+  el("chTrack").classList.toggle("on", excl);
+  el("chThumb").classList.toggle("on", excl);
+  updateKPIs();
+}
+
+// ── TABLES ──
+function buildTable(data, id) {
+  const tcy = data.reduce((a,r)=>a+r.cy,0), tpy = data.reduce((a,r)=>a+r.py,0);
+  const tgoal = data.reduce((a,r)=>a+(getGoal(r)||0),0);
+  const tb = el(id); tb.innerHTML = "";
+  data.forEach(r => {
+    const g = getGoal(r), v = r.cy-r.py;
+    const gr = r.py>0?(r.cy-r.py)/r.py:null;
+    const gap = g>0?g-r.cy:null, cpg = g>0?r.cy/g:null;
+    const ppt = tpy>0?r.py/tpy:null, cpt = tcy>0?r.cy/tcy:null;
+    const mf = isMod(r.s)?` <span style="color:var(--amber);font-size:10px">✎</span>`:"";
+    const tr2 = document.createElement("tr");
+    if (!r.dr) tr2.className = "other";
+    tr2.innerHTML = `
+      <td>${r.s}</td>
+      <td>${fc(r.cy)}</td>
+      <td>${fc(r.py)}</td>
+      <td style="color:${v>=0?"var(--green)":"var(--red)"}">${v>=0?"+":""}${fc(v)}</td>
+      <td style="color:${gr===null?"inherit":gr>=0?"var(--green)":"var(--red)"}">${gr!==null?(gr>=0?"+":"")+fp(gr):"N/A"}</td>
+      <td>${g?fc(g)+mf:"—"}</td>
+      <td style="color:${gap!==null&&gap>0?"var(--red)":"var(--green)"}">${gap!==null?fc(gap):"N/A"}</td>
+      <td style="color:${cpg!==null?gc(cpg):"inherit"}">${cpg!==null?fp(cpg):"N/A"}</td>
+      <td>${ppt!==null?fp(ppt):"N/A"}</td>
+      <td>${cpt!==null?fp(cpt):"N/A"}</td>`;
+    tb.appendChild(tr2);
+  });
+  const tv=tcy-tpy, tg=tpy>0?(tcy-tpy)/tpy:null, tgap=tgoal>0?tgoal-tcy:null, tcpg=tgoal>0?tcy/tgoal:null;
+  const tot = document.createElement("tr");
+  tot.innerHTML = `
+    <td>Total</td>
+    <td>${fc(tcy)}</td><td>${fc(tpy)}</td>
+    <td style="color:${tv>=0?"var(--green)":"var(--red)"}">${tv>=0?"+":""}${fc(tv)}</td>
+    <td style="color:${tg>=0?"var(--green)":"var(--red)"}">${tg>=0?"+":""}${fp(tg)}</td>
+    <td>${tgoal?fc(tgoal):"—"}</td>
+    <td style="color:var(--red)">${tgap!==null?fc(tgap):"N/A"}</td>
+    <td style="color:${tcpg!==null?gc(tcpg):"inherit"}">${tcpg!==null?fp(tcpg):"N/A"}</td>
+    <td>100.0%</td><td>100.0%</td>`;
+  tb.appendChild(tot);
+}
+
+function rebuildTables() {
+  buildTable(allData,"tAll");
+  buildTable(globalData,"tGlobal");
+  buildTable(chapData,"tChapter");
+  updateModBadge(); updateCardStyles();
+}
+
+// ── GOAL PANEL ──
+function buildGoalPanel() {
+  const grid = el("goalGrid"); grid.innerHTML = "";
+  Object.entries(DR_DEF).forEach(([src, def]) => {
+    const id = src.replace(/\s+/g,"-").replace(/[()]/g,"");
+    const card = document.createElement("div");
+    card.className = "goal-card"; card.id = "gc-"+id;
+    card.innerHTML = `
+      <div class="goal-src">${src}</div>
+      <input class="goal-input" type="number" id="gi-${id}" value="${def}" step="1000" min="0">
+      <div class="goal-footer">
+        <div class="goal-default">SF default: ${fc(def)}</div>
+        <div class="goal-mod-badge" id="gm-${id}">✎ modified</div>
+      </div>`;
+    grid.appendChild(card);
+    el("gi-"+id).addEventListener("input", function(){
+      goals[src] = parseFloat(this.value)||0;
+      rebuildTables();
+    });
+  });
+}
+
+function resetAll() {
+  goals = {...DR_DEF};
+  Object.entries(DR_DEF).forEach(([src,def]) => {
+    const id = src.replace(/\s+/g,"-").replace(/[()]/g,"");
+    const inp = el("gi-"+id); if(inp) inp.value = def;
+  });
+  rebuildTables();
+}
+
+function updateModBadge() {
+  const n = Object.keys(DR_DEF).filter(s=>isMod(s)).length;
+  const b = el("modBadge");
+  if (n > 0) { b.textContent = n+" goal"+(n>1?"s":"")+" modified"; b.classList.add("show"); }
+  else { b.textContent = ""; b.classList.remove("show"); }
+}
+
+function updateCardStyles() {
+  Object.keys(DR_DEF).forEach(s => {
+    const id = s.replace(/\s+/g,"-").replace(/[()]/g,"");
+    el("gc-"+id)?.classList.toggle("mod", isMod(s));
+    el("gm-"+id)?.classList.toggle("show", isMod(s));
+  });
+}
+
+// ── DATE ──
+function updatePY() {
+  const s = new Date(el("sd").value+"T12:00:00"), e = new Date(el("ed").value+"T12:00:00");
+  const ps = new Date(s); ps.setFullYear(ps.getFullYear()-1);
+  const pe = new Date(e); pe.setFullYear(pe.getFullYear()-1);
+  const f = d => d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  el("pyRange").textContent = f(ps)+" – "+f(pe);
+}
+
+// ── UTILS ──
+function el(id) { return document.getElementById(id); }
+function set(id, v) { el(id).textContent = v; }
+function setHTML(id, v) { el(id).innerHTML = v; }
+
+// ── INIT ──
+buildGoalPanel();
+rebuildTables();
+updateKPIs();
+el("sd").addEventListener("change", updatePY);
+el("ed").addEventListener("change", updatePY);
+el("fDate").textContent = new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
+</script>
+</body>
+</html>
