@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#070D1A;--surface:#0C1525;--card:#111E33;--card-hover:#162540;--border:rgba(255,255,255,0.07);--border-strong:rgba(255,255,255,0.13);--teal:#1ECFAD;--teal-dim:rgba(30,207,173,0.12);--purple:#7C6FE0;--purple-dim:rgba(124,111,224,0.12);--amber:#F0A82E;--coral:#E05B37;--green:#3DD68C;--green-dim:rgba(61,214,140,0.1);--red:#F07171;--red-dim:rgba(240,113,113,0.1);--blue:#4E9EE8;--text:#EEF2FF;--text-2:#8BA0C0;--text-3:#4E6280;--font-body:"Sora",sans-serif;--font-serif:"Instrument Serif",serif;--r:10px;--r-sm:6px}
+:root{--bg:#070D1A;--surface:#0C1525;--card:#111E33;--card-hover:#162540;--border:rgba(255,255,255,0.07);--border-strong:rgba(255,255,255,0.13);--teal:#1ECFAD;--teal-dim:rgba(30,207,173,0.12);--purple:#7C6FE0;--purple-dim:rgba(124,111,224,0.12);--amber:#F0A82E;--amber-dim:rgba(240,168,46,0.12);--coral:#E05B37;--coral-dim:rgba(224,91,55,0.12);--green:#3DD68C;--green-dim:rgba(61,214,140,0.1);--red:#F07171;--red-dim:rgba(240,113,113,0.1);--blue:#4E9EE8;--text:#EEF2FF;--text-2:#8BA0C0;--text-3:#4E6280;--font-body:"Sora",sans-serif;--font-serif:"Instrument Serif",serif;--r:10px;--r-sm:6px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-size:13px;line-height:1.5;min-height:100vh}
 .wrap{max-width:1280px;margin:0 auto;padding:0 32px 80px}
@@ -22,24 +22,22 @@ input[type=date]{font-family:var(--font-body);font-size:12px;padding:5px 10px;ba
 input[type=date]:focus{outline:none;border-color:var(--teal)}
 .py-label{font-size:12px;color:var(--text-2);margin-left:auto}
 .py-label strong{color:var(--text);font-weight:500}
-.chapter-bar{display:flex;align-items:center;gap:12px;padding:10px 18px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);margin-bottom:28px;cursor:pointer;transition:border-color .2s}
-.chapter-bar.active{border-color:var(--purple);background:var(--purple-dim)}
-.toggle-track{width:36px;height:20px;border-radius:10px;background:var(--border-strong);position:relative;transition:background .25s;flex-shrink:0}
-.toggle-track.on{background:var(--purple)}
-.toggle-thumb{width:16px;height:16px;border-radius:50%;background:white;position:absolute;top:2px;left:2px;transition:left .25s;box-shadow:0 1px 4px rgba(0,0,0,.3)}
-.toggle-thumb.on{left:18px}
-.chapter-text{font-size:13px;color:var(--text)}
-.chapter-sub{font-size:11px;color:var(--text-3)}
-.active-pill{display:none;align-items:center;gap:5px;margin-left:auto;font-size:11px;font-weight:600;color:var(--purple);padding:3px 10px;border-radius:20px;background:var(--purple-dim);border:0.5px solid var(--purple)}
-.active-pill.show{display:inline-flex}
+.seg-wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px 18px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);margin-bottom:28px}
+.seg-label{font-size:12px;color:var(--text-2);white-space:nowrap}
+.seg-ctrl{display:flex;background:var(--bg);border-radius:var(--r-sm);padding:3px;gap:2px;border:0.5px solid var(--border)}
+.seg{font-size:12px;font-family:var(--font-body);padding:5px 16px;border-radius:calc(var(--r-sm) - 1px);border:none;background:transparent;color:var(--text-3);cursor:pointer;transition:all .15s;white-space:nowrap}
+.seg.active{background:var(--card);color:var(--text);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.desig-pill{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;margin-left:auto;white-space:nowrap}
+.d-all{background:var(--card);color:var(--text-2);border:0.5px solid var(--border)}
+.d-global{background:var(--teal-dim);color:var(--teal);border:0.5px solid var(--teal)}
+.d-chapters{background:var(--coral-dim);color:var(--coral);border:0.5px solid var(--coral)}
+.seg-note{font-size:11px;color:var(--text-3)}
 .section{margin-bottom:36px}
 .section-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .section-pip{width:4px;height:18px;border-radius:2px;flex-shrink:0}
 .section-title{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-2)}
 .section-sub{font-size:11px;color:var(--text-3)}
-.badge-pill{display:none;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px}
-.badge-pill.show{display:inline-flex}
-.badge-pill.purple{background:var(--purple-dim);color:var(--purple);border:0.5px solid var(--purple)}
+.sub-label{font-size:11px;color:var(--text-3);margin:0 0 8px 2px;letter-spacing:.03em;text-transform:uppercase}
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:10px}
 .kpi-card{background:var(--card);border:0.5px solid var(--border);border-radius:var(--r);padding:16px 18px;transition:border-color .2s,background .2s}
 .kpi-card:hover{border-color:var(--border-strong);background:var(--card-hover)}
@@ -50,6 +48,7 @@ input[type=date]:focus{outline:none;border-color:var(--teal)}
 .chip{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px}
 .chip.up{background:var(--green-dim);color:var(--green)}
 .chip.dn{background:var(--red-dim);color:var(--red)}
+.kpi-group{margin-bottom:14px}
 .tbl-outer{overflow-x:auto;border:0.5px solid var(--border);border-radius:var(--r)}
 table{width:100%;border-collapse:collapse;font-size:12px;min-width:1060px}
 thead th{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-3);text-align:right;padding:10px 12px;border-bottom:0.5px solid var(--border);background:var(--surface);white-space:nowrap}
@@ -58,8 +57,6 @@ tbody td{padding:9px 12px;text-align:right;border-bottom:0.5px solid var(--borde
 tbody td:first-child{text-align:left;font-weight:500}
 tbody tr:hover td{background:var(--card)}
 tbody tr:last-child td{border-bottom:none;background:var(--surface);font-weight:600}
-tbody tr.other td{color:var(--text-3);font-style:italic}
-tbody tr.other td:first-child{font-style:normal;font-weight:500}
 .tbl-note{font-size:11px;color:var(--text-3);margin-top:8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .leg{display:inline-flex;align-items:center;gap:4px}
 .leg-dot{width:8px;height:8px;border-radius:50%}
@@ -73,7 +70,7 @@ footer{text-align:center;padding:24px 0;font-size:11px;color:var(--text-3);borde
 <header>
   <div>
     <div class="org-name"><span></span>RMH Global</div>
-    <div class="org-sub">Executive Fundraising Dashboard &middot; Fiscal Year = Calendar Year</div>
+    <div class="org-sub">Executive Fundraising Dashboard &middot; Fiscal Year = Calendar Year &middot; Direct Response Program Only</div>
   </div>
   <div style="text-align:right">
     <div class="sample-badge">&#9733; Sample data &mdash; design review only</div>
@@ -89,21 +86,22 @@ footer{text-align:center;padding:24px 0;font-size:11px;color:var(--text-3);borde
   <div class="py-label">Prior year: <strong id="pyRange">Jan 1, 2025 &ndash; May 10, 2025</strong></div>
 </div>
 
-<div class="chapter-bar" id="chapterBar" onclick="toggleChapter()">
-  <div class="toggle-track" id="chTrack"><div class="toggle-thumb" id="chThumb"></div></div>
-  <div>
-    <div class="chapter-text">Exclude chapter-only donors</div>
-    <div class="chapter-sub">Applies to KPI and retention metrics only &middot; does not affect giving source tables</div>
+<div class="seg-wrap">
+  <span class="seg-label">Gift designation</span>
+  <div class="seg-ctrl">
+    <button class="seg active" id="seg-all" onclick="setDesig('all')">All</button>
+    <button class="seg" id="seg-global" onclick="setDesig('global')">Global Only</button>
+    <button class="seg" id="seg-chapters" onclick="setDesig('chapters')">Chapters Only</button>
   </div>
-  <div class="active-pill" id="chPill">&#9679; Chapter-only excluded</div>
+  <span class="desig-pill d-all" id="desigPill">All designations</span>
+  <span class="seg-note">Filters all metrics and the giving source table &middot; Designated_Chapter_txt__c</span>
 </div>
 
 <div class="section">
   <div class="section-header">
     <div class="section-pip" style="background:var(--teal)"></div>
     <div class="section-title">Donor Retention</div>
-    <div class="section-sub">&middot; unique accounts &middot; deduped across OCR + Account Soft Credit</div>
-    <div class="badge-pill purple" id="retBadge">excl. chapter-only</div>
+    <div class="section-sub">&middot; unique accounts &middot; DR campaign-matched opportunities</div>
   </div>
   <div class="kpi-grid">
     <div class="kpi-card"><div class="kpi-label">CY unique donors (a)</div><div class="kpi-val" id="cyD">892</div><div class="kpi-sub">Jan 1 &ndash; May 10, 2026</div></div>
@@ -116,82 +114,92 @@ footer{text-align:center;padding:24px 0;font-size:11px;color:var(--text-3);borde
   <div class="section-header">
     <div class="section-pip" style="background:var(--purple)"></div>
     <div class="section-title">Key Performance Indicators</div>
-    <div class="badge-pill purple" id="kpiBadge">excl. chapter-only</div>
   </div>
-  <div class="kpi-grid">
+
+  <div class="sub-label">Revenue</div>
+  <div class="kpi-grid kpi-group">
     <div class="kpi-card"><div class="kpi-label">Direct response revenue YTD</div><div class="kpi-val" id="drRev">$1.60M</div><div class="kpi-sub">DM &middot; Email &middot; Paid &middot; P2P &middot; Direct Msg</div></div>
     <div class="kpi-card"><div class="kpi-label">Revenue YTD vs prior year</div><div class="kpi-val pos" id="drChg">+8.5%</div><div class="kpi-sub" id="drChgSub"><span class="chip up">&#9650; vs $1.47M PY</span></div></div>
+    <div class="kpi-card"><div class="kpi-label">Revenue vs annual DR goal</div><div class="kpi-val" id="revGoal">72.1%</div><div class="kpi-sub" id="revGoalSub">of $2.22M annual goal</div></div>
+  </div>
+
+  <div class="sub-label">Donors</div>
+  <div class="kpi-grid kpi-group">
     <div class="kpi-card"><div class="kpi-label">Active donors in period</div><div class="kpi-val" id="actD">892</div><div class="kpi-sub">Effective Account ID &middot; CY range</div></div>
     <div class="kpi-card"><div class="kpi-label">Net new donors YTD</div><div class="kpi-val" id="netN">134</div><div class="kpi-sub">First_Giving_Date__c in CY range</div></div>
     <div class="kpi-card"><div class="kpi-label">Net new donors vs PY</div><div class="kpi-val pos" id="netChg">+13.6%</div><div class="kpi-sub" id="netChgSub"><span class="chip up">&#9650; vs 118 PY</span></div></div>
   </div>
-</div>
 
-<div class="section">
-  <div class="section-header">
-    <div class="section-pip" style="background:var(--teal)"></div>
-    <div class="section-title">Giving by Source &mdash; Global</div>
-    <div class="section-sub">&middot; Designated_Chapter_txt__c = &ldquo;Global&rdquo;</div>
+  <div class="sub-label">Gifts</div>
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-label">Total gifts YTD</div><div class="kpi-val" id="giftsCY">1,247</div><div class="kpi-sub">Unique opportunities in CY range</div></div>
+    <div class="kpi-card"><div class="kpi-label">Total gifts vs prior year</div><div class="kpi-val pos" id="giftsChg">+7.9%</div><div class="kpi-sub" id="giftsChgSub"><span class="chip up">&#9650; vs 1,156 PY</span></div></div>
   </div>
-  <div class="tbl-outer"><table><thead><tr><th style="text-align:left">Giving source</th><th>CY sum</th><th>PY sum</th><th>YTD variance</th><th>% growth</th><th>Goal</th><th>Gap to goal</th><th>CY % of goal</th><th>PY % of total</th><th>CY % of total</th></tr></thead><tbody id="tGlob"></tbody></table></div>
-  <div class="tbl-note">
-    <span class="leg"><span class="leg-dot" style="background:var(--green)"></span>&ge;80% of goal</span>
-    <span class="leg"><span class="leg-dot" style="background:var(--amber)"></span>60&ndash;79%</span>
-    <span class="leg"><span class="leg-dot" style="background:var(--red)"></span>&lt;60%</span>
-    <span>&middot; Goals from Salesforce Top_Level_Parent_Goal__c &middot; Other = unmatched Giving_Source__c values</span>
-  </div>
-</div>
-
-<div class="section">
-  <div class="section-header">
-    <div class="section-pip" style="background:var(--coral)"></div>
-    <div class="section-title">Giving by Source &mdash; Chapters</div>
-    <div class="section-sub">&middot; Designated_Chapter_txt__c &ne; &ldquo;Global&rdquo;</div>
-  </div>
-  <div class="tbl-outer"><table><thead><tr><th style="text-align:left">Giving source</th><th>CY sum</th><th>PY sum</th><th>YTD variance</th><th>% growth</th><th>Goal</th><th>Gap to goal</th><th>CY % of goal</th><th>PY % of total</th><th>CY % of total</th></tr></thead><tbody id="tChap"></tbody></table></div>
-  <div class="tbl-note"><span>Goals sourced from chapter-level parent campaigns</span></div>
 </div>
 
 <div class="section">
   <div class="section-header">
     <div class="section-pip" style="background:var(--blue)"></div>
-    <div class="section-title">Giving by Source &mdash; All</div>
-    <div class="section-sub">&middot; all values of Designated_Chapter_txt__c &middot; chapter filter does not apply</div>
+    <div class="section-title">Giving by Source</div>
+    <div class="section-sub" id="tblLabel">&middot; all designations</div>
   </div>
-  <div class="tbl-outer"><table><thead><tr><th style="text-align:left">Giving source</th><th>CY sum</th><th>PY sum</th><th>YTD variance</th><th>% growth</th><th>Goal</th><th>Gap to goal</th><th>CY % of goal</th><th>PY % of total</th><th>CY % of total</th></tr></thead><tbody id="tAll"></tbody></table></div>
+  <div class="tbl-outer"><table><thead><tr>
+    <th style="text-align:left">Giving source</th>
+    <th>CY sum</th><th>PY sum</th><th>YTD variance</th><th>% growth</th>
+    <th>Goal</th><th>Gap to goal</th><th>CY % of goal</th>
+    <th>PY % of total</th><th>CY % of total</th>
+  </tr></thead><tbody id="tMain"></tbody></table></div>
+  <div class="tbl-note">
+    <span class="leg"><span class="leg-dot" style="background:var(--green)"></span>&ge;80% of goal</span>
+    <span class="leg"><span class="leg-dot" style="background:var(--amber)"></span>60&ndash;79%</span>
+    <span class="leg"><span class="leg-dot" style="background:var(--red)"></span>&lt;60%</span>
+    <span>&middot; Goals: SUM(Top_Level_Parent_Goal__c) by Type &middot; FY = CY &middot; Non-matched opportunities excluded</span>
+  </div>
 </div>
 
 <footer>RMH Global &middot; Executive Fundraising Dashboard &middot; Sample data for design review &middot; <span id="fDate"></span></footer>
 </div>
+
 <script>
-var KPI={all:{cyD:892,pyD:1008,drCY:1600000,drPY:1474600,actD:892,netCY:134,netPY:118},excl:{cyD:807,pyD:916,drCY:1455000,drPY:1342600,actD:807,netCY:116,netPY:104}};
 var SF_GOALS={"Direct Mail":1200000,"Email":450000,"Paid Media":250000,"Peer-to-Peer":200000,"Direct Message":120000};
-var excl=false;
-var allData=[{s:"Direct Mail",cy:845320,py:780100,dr:true},{s:"Email",cy:312450,py:289200,dr:true},{s:"Paid Media",cy:198730,py:167400,dr:true},{s:"Peer-to-Peer",cy:156200,py:143800,dr:true},{s:"Direct Message",cy:87300,py:94100,dr:true},{s:"Other",cy:1440300,py:1264500,dr:false}];
-var globData=[{s:"Direct Mail",cy:620000,py:570000,dr:true},{s:"Email",cy:280000,py:260000,dr:true},{s:"Paid Media",cy:150000,py:120000,dr:true},{s:"Peer-to-Peer",cy:90000,py:85000,dr:true},{s:"Direct Message",cy:60000,py:65000,dr:true},{s:"Other",cy:1010000,py:839000,dr:false}];
-var chapData=[{s:"Direct Mail",cy:225320,py:210100,dr:true},{s:"Email",cy:32450,py:29200,dr:true},{s:"Paid Media",cy:48730,py:47400,dr:true},{s:"Peer-to-Peer",cy:66200,py:58800,dr:true},{s:"Direct Message",cy:27300,py:29100,dr:true},{s:"Other",cy:430300,py:425500,dr:false}];
+var TOTAL_GOAL=Object.values(SF_GOALS).reduce(function(a,b){return a+b;},0);
+var DATA={
+  all:{
+    ret:{cyD:892,pyD:1008},
+    kpi:{drCY:1600000,drPY:1474600,actD:892,netCY:134,netPY:118,giftsCY:1247,giftsPY:1156},
+    table:[{s:"Direct Mail",cy:845320,py:780100},{s:"Email",cy:312450,py:289200},{s:"Paid Media",cy:198730,py:167400},{s:"Peer-to-Peer",cy:156200,py:143800},{s:"Direct Message",cy:87300,py:94100}]
+  },
+  global:{
+    ret:{cyD:720,pyD:815},
+    kpi:{drCY:1300000,drPY:1197600,actD:720,netCY:108,netPY:96,giftsCY:1050,giftsPY:975},
+    table:[{s:"Direct Mail",cy:620000,py:570000},{s:"Email",cy:280000,py:260000},{s:"Paid Media",cy:150000,py:120000},{s:"Peer-to-Peer",cy:90000,py:85000},{s:"Direct Message",cy:60000,py:65000}]
+  },
+  chapters:{
+    ret:{cyD:172,pyD:193},
+    kpi:{drCY:300000,drPY:277000,actD:172,netCY:26,netPY:22,giftsCY:197,giftsPY:181},
+    table:[{s:"Direct Mail",cy:225320,py:210100},{s:"Email",cy:32450,py:29200},{s:"Paid Media",cy:48730,py:47400},{s:"Peer-to-Peer",cy:66200,py:58800},{s:"Direct Message",cy:27300,py:29100}]
+  }
+};
+var desig="all";
 function fc(n){return n>=1e6?"$"+(n/1e6).toFixed(2)+"M":"$"+Math.round(n/1e3)+"K";}
 function fp(n){return(n*100).toFixed(1)+"%";}
 function gcHex(r){return r>=0.8?"var(--green)":r>=0.6?"var(--amber)":"var(--red)";}
-function getGoal(r){return r.dr&&SF_GOALS[r.s]?SF_GOALS[r.s]:null;}
 function progBar(cpg){
   if(cpg===null)return"N/A";
   var col=gcHex(cpg),w=Math.min(cpg,1)*70;
   return'<div class="pb"><svg width="70" height="8" style="flex-shrink:0"><rect x="0" y="0" width="70" height="8" rx="4" fill="rgba(255,255,255,0.05)"/><rect x="0" y="0" width="'+w+'" height="8" rx="4" fill="'+col+'"/></svg><span style="color:'+col+';min-width:42px;text-align:right;font-size:12px">'+(cpg*100).toFixed(1)+'%</span></div>';
 }
-function buildTable(data,id){
+function buildTable(data){
   var tcy=0,tpy=0,tgoal=0;
-  data.forEach(function(r){tcy+=r.cy;tpy+=r.py;tgoal+=(getGoal(r)||0);});
-  var tb=document.getElementById(id);tb.innerHTML="";
+  data.forEach(function(r){tcy+=r.cy;tpy+=r.py;tgoal+=(SF_GOALS[r.s]||0);});
+  var tb=document.getElementById("tMain");tb.innerHTML="";
   data.forEach(function(r){
-    var g=getGoal(r),v=r.cy-r.py,gr=r.py>0?(r.cy-r.py)/r.py:null;
+    var g=SF_GOALS[r.s]||null,v=r.cy-r.py,gr=r.py>0?(r.cy-r.py)/r.py:null;
     var gap=g>0?g-r.cy:null,cpg=g>0?r.cy/g:null;
     var ppt=tpy>0?r.py/tpy:null,cpt=tcy>0?r.cy/tcy:null;
     var tr2=document.createElement("tr");
-    if(!r.dr)tr2.className="other";
     tr2.innerHTML="<td>"+r.s+"</td>"
-      +"<td>"+fc(r.cy)+"</td>"
-      +"<td>"+fc(r.py)+"</td>"
+      +"<td>"+fc(r.cy)+"</td><td>"+fc(r.py)+"</td>"
       +'<td style="color:'+(v>=0?"var(--green)":"var(--red)")+'">'+(v>=0?"+":"")+fc(v)+"</td>"
       +'<td style="color:'+(gr===null?"inherit":gr>=0?"var(--green)":"var(--red)")+'">'+(gr!==null?(gr>=0?"+":"")+fp(gr):"N/A")+"</td>"
       +"<td>"+(g?fc(g):"&mdash;")+"</td>"
@@ -201,43 +209,58 @@ function buildTable(data,id){
       +"<td>"+(cpt!==null?fp(cpt):"N/A")+"</td>";
     tb.appendChild(tr2);
   });
-  var tv=tcy-tpy,tg=tpy>0?(tcy-tpy)/tpy:null,tgap=tgoal>0?tgoal-tcy:null,tcpg=tgoal>0?tcy/tgoal:null;
+  var tv=tcy-tpy,tg=tpy>0?(tcy-tpy)/tpy:null,tgap=tgoal-tcy,tcpg=tcy/tgoal;
   var tot=document.createElement("tr");
   tot.innerHTML="<td>Total</td>"
     +"<td>"+fc(tcy)+"</td><td>"+fc(tpy)+"</td>"
     +'<td style="color:'+(tv>=0?"var(--green)":"var(--red)")+'">'+(tv>=0?"+":"")+fc(tv)+"</td>"
     +'<td style="color:'+(tg>=0?"var(--green)":"var(--red)")+'">'+(tg>=0?"+":"")+fp(tg)+"</td>"
-    +"<td>"+(tgoal?fc(tgoal):"&mdash;")+"</td>"
-    +'<td style="color:var(--red)">'+(tgap!==null?fc(tgap):"N/A")+"</td>"
+    +"<td>"+fc(tgoal)+"</td>"
+    +'<td style="color:var(--red)">'+fc(tgap)+"</td>"
     +"<td>"+progBar(tcpg)+"</td><td>100.0%</td><td>100.0%</td>";
   tb.appendChild(tot);
 }
-function updateKPIs(){
-  var d=excl?KPI.excl:KPI.all;
-  var dR=d.pyD/d.cyD,drC=(d.drCY-d.drPY)/d.drPY,nnC=(d.netCY-d.netPY)/d.netPY,dDiff=d.pyD-d.cyD;
-  document.getElementById("cyD").textContent=d.cyD.toLocaleString();
-  document.getElementById("pyD").textContent=d.pyD.toLocaleString();
+function updateAll(){
+  var d=DATA[desig];
+  var dDiff=d.ret.pyD-d.ret.cyD,dR=d.ret.pyD/d.ret.cyD;
+  document.getElementById("cyD").textContent=d.ret.cyD.toLocaleString();
+  document.getElementById("pyD").textContent=d.ret.pyD.toLocaleString();
   document.getElementById("dRat").textContent=fp(dR);
   document.getElementById("dRatSub").innerHTML=dDiff>0?'<span class="chip dn">&#9660; PY higher by '+dDiff+"</span>":'<span class="chip up">&#9650; CY higher by '+Math.abs(dDiff)+"</span>";
-  document.getElementById("drRev").textContent=fc(d.drCY);
+  var k=d.kpi;
+  var drC=(k.drCY-k.drPY)/k.drPY,revGoalPct=k.drCY/TOTAL_GOAL;
+  document.getElementById("drRev").textContent=fc(k.drCY);
   document.getElementById("drChg").textContent=(drC>=0?"+":"")+fp(drC);
   document.getElementById("drChg").className="kpi-val"+(drC>=0?" pos":"");
-  document.getElementById("drChgSub").innerHTML=drC>=0?'<span class="chip up">&#9650; vs '+fc(d.drPY)+" PY</span>":'<span class="chip dn">&#9660; vs '+fc(d.drPY)+" PY</span>";
-  document.getElementById("actD").textContent=d.actD.toLocaleString();
-  document.getElementById("netN").textContent=d.netCY;
+  document.getElementById("drChgSub").innerHTML=drC>=0?'<span class="chip up">&#9650; vs '+fc(k.drPY)+" PY</span>":'<span class="chip dn">&#9660; vs '+fc(k.drPY)+" PY</span>";
+  var rg=document.getElementById("revGoal");
+  rg.textContent=fp(revGoalPct);
+  rg.style.color=revGoalPct>=0.8?"var(--green)":revGoalPct>=0.6?"var(--amber)":"var(--red)";
+  document.getElementById("revGoalSub").textContent="of "+fc(TOTAL_GOAL)+" annual goal";
+  var nnC=(k.netCY-k.netPY)/k.netPY;
+  document.getElementById("actD").textContent=k.actD.toLocaleString();
+  document.getElementById("netN").textContent=k.netCY;
   document.getElementById("netChg").textContent=(nnC>=0?"+":"")+fp(nnC);
   document.getElementById("netChg").className="kpi-val"+(nnC>=0?" pos":"");
-  document.getElementById("netChgSub").innerHTML=nnC>=0?'<span class="chip up">&#9650; vs '+d.netPY+" PY</span>":'<span class="chip dn">&#9660; vs '+d.netPY+" PY</span>";
-  var show=excl;
-  ["retBadge","kpiBadge"].forEach(function(id){document.getElementById(id).classList.toggle("show",show);});
-  document.getElementById("chPill").classList.toggle("show",show);
-  document.getElementById("chapterBar").classList.toggle("active",show);
+  document.getElementById("netChgSub").innerHTML=nnC>=0?'<span class="chip up">&#9650; vs '+k.netPY+" PY</span>":'<span class="chip dn">&#9660; vs '+k.netPY+" PY</span>";
+  var gC=(k.giftsCY-k.giftsPY)/k.giftsPY;
+  document.getElementById("giftsCY").textContent=k.giftsCY.toLocaleString();
+  document.getElementById("giftsChg").textContent=(gC>=0?"+":"")+fp(gC);
+  document.getElementById("giftsChg").className="kpi-val"+(gC>=0?" pos":"");
+  document.getElementById("giftsChgSub").innerHTML=gC>=0?'<span class="chip up">&#9650; vs '+k.giftsPY.toLocaleString()+" PY</span>":'<span class="chip dn">&#9660; vs '+k.giftsPY.toLocaleString()+" PY</span>";
+  buildTable(d.table);
+  var labels={all:"&middot; all designations",global:"&middot; Global Only (Designated_Chapter_txt__c = &ldquo;Global&rdquo;)",chapters:"&middot; Chapters Only (Designated_Chapter_txt__c &ne; &ldquo;Global&rdquo;)"};
+  document.getElementById("tblLabel").innerHTML=labels[desig];
+  var pill=document.getElementById("desigPill");
+  var pillClasses={all:"desig-pill d-all",global:"desig-pill d-global",chapters:"desig-pill d-chapters"};
+  var pillText={all:"All designations",global:"Global Only",chapters:"Chapters Only"};
+  pill.className=pillClasses[desig];
+  pill.textContent=pillText[desig];
 }
-function toggleChapter(){
-  excl=!excl;
-  document.getElementById("chTrack").classList.toggle("on",excl);
-  document.getElementById("chThumb").classList.toggle("on",excl);
-  updateKPIs();
+function setDesig(val){
+  desig=val;
+  ["all","global","chapters"].forEach(function(v){document.getElementById("seg-"+v).classList.toggle("active",v===val);});
+  updateAll();
 }
 function updatePY(){
   var s=new Date(document.getElementById("sd").value+"T12:00:00"),e=new Date(document.getElementById("ed").value+"T12:00:00");
@@ -245,10 +268,7 @@ function updatePY(){
   var f=function(d){return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});};
   document.getElementById("pyRange").textContent=f(ps)+" – "+f(pe);
 }
-buildTable(globData,"tGlob");
-buildTable(chapData,"tChap");
-buildTable(allData,"tAll");
-updateKPIs();
+updateAll();
 document.getElementById("sd").addEventListener("change",updatePY);
 document.getElementById("ed").addEventListener("change",updatePY);
 document.getElementById("fDate").textContent=new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
