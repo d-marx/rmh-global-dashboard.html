@@ -125,8 +125,8 @@ footer{text-align:center;padding:24px 0;font-size:11px;color:var(--text-3);borde
 
   <div class="sub-label">Donors</div>
   <div class="kpi-grid kpi-group">
-    <div class="kpi-card"><div class="kpi-label">Active donors in period</div><div class="kpi-val" id="actD">892</div><div class="kpi-sub">Effective Account ID &middot; CY range</div></div>
-    <div class="kpi-card"><div class="kpi-label">Net new donors YTD</div><div class="kpi-val" id="netN">134</div><div class="kpi-sub">First_Giving_Date__c in CY range</div></div>
+    <div class="kpi-card"><div class="kpi-label">Net new donors in period</div><div class="kpi-val" id="netN">134</div><div class="kpi-sub">First_Giving_Date__c in CY range</div></div>
+    <div class="kpi-card"><div class="kpi-label">Net new donors in PY period</div><div class="kpi-val" id="netNPY">118</div><div class="kpi-sub">First_Giving_Date__c in PY range</div></div>
     <div class="kpi-card"><div class="kpi-label">Net new donors vs PY</div><div class="kpi-val pos" id="netChg">+13.6%</div><div class="kpi-sub" id="netChgSub"><span class="chip up">&#9650; vs 118 PY</span></div></div>
   </div>
 
@@ -238,8 +238,8 @@ function updateAll(){
   rg.style.color=revGoalPct>=0.8?"var(--green)":revGoalPct>=0.6?"var(--amber)":"var(--red)";
   document.getElementById("revGoalSub").textContent="of "+fc(TOTAL_GOAL)+" annual goal";
   var nnC=(k.netCY-k.netPY)/k.netPY;
-  document.getElementById("actD").textContent=k.actD.toLocaleString();
   document.getElementById("netN").textContent=k.netCY;
+  document.getElementById("netNPY").textContent=k.netPY;
   document.getElementById("netChg").textContent=(nnC>=0?"+":"")+fp(nnC);
   document.getElementById("netChg").className="kpi-val"+(nnC>=0?" pos":"");
   document.getElementById("netChgSub").innerHTML=nnC>=0?'<span class="chip up">&#9650; vs '+k.netPY+" PY</span>":'<span class="chip dn">&#9660; vs '+k.netPY+" PY</span>";
